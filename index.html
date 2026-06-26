@@ -6,268 +6,191 @@
 <title>Daftar Peserta — Malang</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4ff; color: #1a1a1a; min-height: 100vh; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f4f4f0;
-    color: #1a1a1a;
-    min-height: 100vh;
-  }
-
-  .header {
-    background: #1a1a1a;
-    color: #fff;
-    text-align: center;
-    padding: 1.25rem 1rem 0.75rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header h1 {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-  .header p {
-    font-size: 11px;
-    color: rgba(255,255,255,0.45);
-    letter-spacing: 1px;
-    margin-bottom: 0.75rem;
-  }
-
-  .search-wrap { padding: 0 1rem 0.75rem; background: #1a1a1a; }
-  .search-box {
-    display: flex;
-    align-items: center;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 10px;
-    padding: 0 12px;
-    gap: 8px;
-  }
+  /* ── HEADER ── */
+  .header { background: #003DA5; color: #fff; text-align: center; padding: 1.25rem 1rem 0.75rem; position: sticky; top: 0; z-index: 100; }
+  .header h1 { font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
+  .header p { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 1px; margin-bottom: 0.75rem; }
+  .search-wrap { padding: 0 1rem 0.75rem; background: #003DA5; }
+  .search-box { display: flex; align-items: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 0 12px; gap: 8px; }
   .search-icon { font-size: 15px; color: rgba(255,255,255,0.45); flex-shrink: 0; }
-  .search-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    font-size: 14px;
-    padding: 10px 0;
-    font-family: inherit;
-  }
+  .search-input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 14px; padding: 10px 0; font-family: inherit; }
   .search-input::placeholder { color: rgba(255,255,255,0.35); }
-  .clear-btn {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.45);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 4px;
-    display: none;
-    line-height: 1;
-  }
+  .clear-btn { background: none; border: none; color: rgba(255,255,255,0.45); font-size: 18px; cursor: pointer; padding: 4px; display: none; line-height: 1; }
   .clear-btn.visible { display: block; }
 
-  .nav-wrap {
-    background: #1a1a1a;
-    padding: 0 0.75rem 0.75rem;
-    position: sticky;
-    top: 130px;
-    z-index: 99;
-  }
+  /* ── NAV TABS ── */
+  .nav-wrap { background: #003DA5; padding: 0 0.75rem 0.75rem; position: sticky; top: 130px; z-index: 99; }
   .nav-wrap.hidden { display: none; }
   .nav-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
   .nav-tabs::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    flex: 0 0 auto;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 7px 14px;
-    border-radius: 20px;
-    border: 1.5px solid rgba(255,255,255,0.25);
-    background: transparent;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .tab-btn.active { background: #fff; color: #1a1a1a; border-color: #fff; }
+  .tab-btn { flex: 0 0 auto; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid rgba(255,255,255,0.25); background: transparent; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.15s ease; }
+  .tab-btn.active { background: #fff; color: #003DA5; border-color: #fff; }
 
   .container { max-width: 480px; margin: 0 auto; padding: 1rem; }
 
-  /* Search results */
+  /* ── SEARCH RESULTS ── */
   .search-results { display: none; }
   .search-results.active { display: block; }
-  .search-results-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #888;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
+  .search-results-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.75rem; }
   .search-empty { text-align: center; padding: 2.5rem 1rem; color: #aaa; font-size: 14px; }
   .search-empty span { display: block; font-size: 28px; margin-bottom: 8px; }
 
-  /* Result row */
   .participant-list { display: flex; flex-direction: column; gap: 5px; }
-  .participant-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 11px 14px;
-    border: 1px solid #eeeee9;
-  }
+  .participant-row { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 10px; padding: 11px 14px; border: 1px solid #eeeee9; }
   .no-num { font-size: 11px; font-weight: 600; color: #bbb; min-width: 20px; text-align: right; }
-  .participant-name {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #1a1a1a;
-    letter-spacing: 0.3px;
-    flex: 1;
-    line-height: 1.3;
-  }
-  .participant-name mark { background: #ffe600; color: #1a1a1a; border-radius: 3px; padding: 0 1px; }
+  .participant-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; flex: 1; line-height: 1.3; }
+  .participant-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
 
-  /* Search result card — clickable */
-  .result-card {
-    background: #fff;
-    border-radius: 10px;
-    border: 1px solid #eeeee9;
-    overflow: hidden;
-    margin-bottom: 5px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
+  .result-card { background: #fff; border-radius: 10px; border: 1px solid #eeeee9; overflow: hidden; margin-bottom: 5px; cursor: pointer; transition: border-color 0.15s; }
   .result-card:active { border-color: #ffe600; }
-
-  .result-main {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-  }
-  .result-name {
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #1a1a1a;
-    letter-spacing: 0.3px;
-    flex: 1;
-    line-height: 1.3;
-  }
-  .result-name mark { background: #ffe600; color: #1a1a1a; border-radius: 3px; padding: 0 1px; }
-
-  .group-badge {
-    font-size: 10px;
-    font-weight: 700;
-    background: #1a1a1a;
-    color: #fff;
-    padding: 4px 9px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-  }
-
-  .expand-arrow {
-    font-size: 13px;
-    color: #bbb;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-  }
+  .result-main { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+  .result-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; flex: 1; line-height: 1.3; }
+  .result-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
+  .group-badge { font-size: 10px; font-weight: 700; background: #003DA5; color: #fff; padding: 4px 9px; border-radius: 20px; letter-spacing: 0.5px; flex-shrink: 0; }
+  .expand-arrow { font-size: 13px; color: #bbb; flex-shrink: 0; transition: transform 0.2s; }
   .result-card.open .expand-arrow { transform: rotate(180deg); }
 
-  /* Expanded group members inside result card */
-  .group-members {
-    display: none;
-    border-top: 1px solid #f0f0ec;
-    background: #fafaf8;
-    padding: 8px 0;
-  }
+  .group-members { display: none; border-top: 1px solid #f0f0ec; background: #fafaf8; padding: 8px 0; }
   .result-card.open .group-members { display: block; }
-
-  .group-members-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    color: #aaa;
-    text-transform: uppercase;
-    padding: 4px 14px 8px;
-  }
-  .member-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 14px;
-    border-bottom: 1px solid #f0f0ec;
-  }
+  .group-members-title { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #aaa; text-transform: uppercase; padding: 4px 14px 8px; }
+  .member-row { display: flex; align-items: center; gap: 10px; padding: 7px 14px; border-bottom: 1px solid #f0f0ec; }
   .member-row:last-child { border-bottom: none; }
-  .member-row.active-member { background: #fffbe6; }
+  .member-row.active-member { background: #e8f0fd; }
   .member-no { font-size: 11px; color: #ccc; font-weight: 600; min-width: 18px; text-align: right; }
   .member-name { font-size: 13px; font-weight: 600; color: #1a1a1a; flex: 1; line-height: 1.3; }
-  .member-name.active-name { color: #1a1a1a; }
-  .member-name mark { background: #ffe600; color: #1a1a1a; border-radius: 3px; padding: 0 1px; }
-  .you-tag {
-    font-size: 10px;
-    font-weight: 700;
-    background: #ffe600;
-    color: #1a1a1a;
-    padding: 2px 7px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-    flex-shrink: 0;
-  }
+  .member-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
+  .you-tag { font-size: 10px; font-weight: 700; background: #5BC2E7; color: #fff; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.3px; flex-shrink: 0; }
 
-  /* Room card in expand */
-  .room-sub-card {
-    margin: 4px 10px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid #eeeee9;
-    overflow: hidden;
-  }
-  .room-sub-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #bbb;
-    text-transform: uppercase;
-    padding: 6px 12px 4px;
-  }
-  .room-sub-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #1a1a1a;
-    padding: 4px 12px;
-    line-height: 1.35;
-  }
-  .room-sub-name.highlighted { background: #fffbe6; }
-  .room-sub-name mark { background: #ffe600; color: #1a1a1a; border-radius: 3px; padding: 0 1px; }
+  .room-sub-card { margin: 4px 10px; border-radius: 8px; background: #fff; border: 1px solid #eeeee9; overflow: hidden; }
+  .room-sub-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #bbb; text-transform: uppercase; padding: 6px 12px 4px; }
+  .room-sub-name { font-size: 13px; font-weight: 600; color: #1a1a1a; padding: 4px 12px; line-height: 1.35; }
+  .room-sub-name.highlighted { background: #e8f0fd; }
+  .room-sub-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
   .room-sub-divider { height: 1px; background: #f0f0ec; margin: 0 12px; }
   .room-gap { height: 6px; }
 
-  /* Group panels (browse mode) */
+  /* ── GROUP PANELS ── */
   .group-panel { display: none; }
   .group-panel.active { display: block; }
-  .group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-  }
+  .group-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
   .group-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #888; text-transform: uppercase; }
   .group-count { font-size: 11px; font-weight: 600; background: #e8e8e4; color: #555; padding: 3px 10px; border-radius: 20px; }
-
   .room-card { background: #fff; border-radius: 10px; border: 1px solid #eeeee9; padding: 11px 14px; margin-bottom: 5px; }
   .room-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #bbb; margin-bottom: 6px; text-transform: uppercase; }
   .room-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; padding: 2px 0; line-height: 1.35; }
   .room-divider { height: 1px; background: #f0f0ec; margin: 5px 0; }
-
   .bottom-note { text-align: center; font-size: 11px; color: #aaa; margin-top: 1.5rem; padding-bottom: 2rem; letter-spacing: 0.5px; }
+
+  /* ── ADMIN PANEL ── */
+  #adminBtn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 999;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: #003DA5; color: #fff; border: none;
+    font-size: 20px; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  #adminOverlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.5);
+  }
+  #adminOverlay.open { display: flex; flex-direction: column; }
+
+  #adminPanel {
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    margin-top: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #eeeee9;
+    flex-shrink: 0;
+  }
+  .admin-header h2 { font-size: 15px; font-weight: 600; color: #003DA5; }
+  .admin-close { background: none; border: none; font-size: 22px; color: #aaa; cursor: pointer; line-height: 1; padding: 4px; }
+
+  .admin-lock {
+    padding: 1.5rem 1.25rem;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .admin-lock p { font-size: 13px; color: #888; }
+  .pin-row { display: flex; gap: 8px; }
+  .pin-input {
+    flex: 1; border: 1.5px solid #eeeee9; border-radius: 10px;
+    padding: 10px 14px; font-size: 16px; font-family: inherit;
+    outline: none; letter-spacing: 4px;
+  }
+  .pin-input:focus { border-color: #003DA5; }
+  .pin-input.error { border-color: #e53e3e; }
+  .btn-primary {
+    background: #003DA5; color: #fff; border: none;
+    border-radius: 10px; padding: 10px 20px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary:active { opacity: 0.8; }
+  .pin-error { font-size: 12px; color: #e53e3e; display: none; }
+  .pin-error.show { display: block; }
+
+  .admin-body {
+    flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
+    display: none; flex-direction: column; gap: 1rem;
+  }
+  .admin-body.unlocked { display: flex; }
+
+  .admin-group-select { display: flex; flex-direction: column; gap: 8px; }
+  .admin-group-select label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #888; text-transform: uppercase; }
+  .admin-select {
+    border: 1.5px solid #eeeee9; border-radius: 10px;
+    padding: 10px 14px; font-size: 14px; font-family: inherit;
+    outline: none; background: #fff; color: #1a1a1a;
+  }
+  .admin-select:focus { border-color: #003DA5; }
+
+  .admin-members { display: flex; flex-direction: column; gap: 6px; }
+  .admin-member-row {
+    display: flex; align-items: center; gap: 8px;
+    background: #fafaf8; border: 1px solid #eeeee9;
+    border-radius: 10px; padding: 8px 12px;
+  }
+  .admin-no { font-size: 11px; color: #bbb; font-weight: 600; min-width: 18px; text-align: right; flex-shrink: 0; }
+  .admin-name-input {
+    flex: 1; border: none; background: transparent;
+    font-size: 13.5px; font-weight: 600; color: #1a1a1a;
+    font-family: inherit; outline: none; padding: 2px 4px;
+    border-radius: 6px; letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .admin-name-input:focus { background: #fff; outline: 2px solid #5BC2E7; }
+
+  .admin-actions { display: flex; gap: 8px; padding-bottom: 1rem; flex-shrink: 0; }
+  .btn-save { flex: 1; background: #003DA5; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .btn-save:active { opacity: 0.8; }
+  .btn-cancel { background: #f0f0ec; color: #555; border: none; border-radius: 10px; padding: 12px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+  .save-toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    background: #003DA5; color: #fff; font-size: 13px; font-weight: 600;
+    padding: 10px 20px; border-radius: 20px; z-index: 2000;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    white-space: nowrap;
+  }
+  .save-toast.show { opacity: 1; }
+
+  /* Room edit for group 10 */
+  .admin-room-section { display: flex; flex-direction: column; gap: 6px; }
+  .admin-room-card { background: #fafaf8; border: 1px solid #eeeee9; border-radius: 10px; overflow: hidden; }
+  .admin-room-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #bbb; text-transform: uppercase; padding: 8px 12px 4px; }
+  .admin-room-row { display: flex; align-items: center; gap: 8px; padding: 4px 12px 8px; }
 </style>
 </head>
 <body>
@@ -292,16 +215,66 @@
   <div class="search-results" id="searchResults">
     <div class="search-results-label" id="searchLabel"></div>
     <div id="searchList"></div>
-    <div class="search-empty" id="searchEmpty" style="display:none">
-      <span>🔎</span>
-      Nama tidak ditemukan
-    </div>
+    <div class="search-empty" id="searchEmpty" style="display:none"><span>🔎</span>Nama tidak ditemukan</div>
   </div>
   <div id="groupPanels"></div>
 </div>
 
+<!-- Admin button -->
+<button id="adminBtn" onclick="openAdmin()" title="Admin">⚙️</button>
+
+<!-- Admin overlay -->
+<div id="adminOverlay">
+  <div id="adminPanel">
+    <div class="admin-header">
+      <h2>✏️ Edit Data Peserta</h2>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+
+    <!-- Lock screen -->
+    <div class="admin-lock" id="adminLock">
+      <p>Masukkan PIN untuk mengakses panel edit.</p>
+      <div class="pin-row">
+        <input class="pin-input" type="password" id="pinInput" placeholder="PIN" maxlength="6" inputmode="numeric" />
+        <button class="btn-primary" onclick="checkPin()">Masuk</button>
+      </div>
+      <div class="pin-error" id="pinError">PIN salah. Coba lagi.</div>
+    </div>
+
+    <!-- Edit body -->
+    <div class="admin-body" id="adminBody">
+      <div class="admin-group-select">
+        <label>Pilih Group</label>
+        <select class="admin-select" id="adminGroupSelect" onchange="loadAdminGroup()">
+          <option value="1">Group 1</option>
+          <option value="2">Group 2</option>
+          <option value="3">Group 3</option>
+          <option value="4">Group 4</option>
+          <option value="5">Group 5</option>
+          <option value="6">Group 6</option>
+          <option value="7">Group 7</option>
+          <option value="8">Group 8</option>
+          <option value="9">Group 9</option>
+          <option value="10">Group 10</option>
+        </select>
+      </div>
+      <div id="adminMemberList"></div>
+    </div>
+
+    <div class="admin-actions" id="adminActions" style="display:none; padding: 0 1.25rem;">
+      <button class="btn-cancel" onclick="closeAdmin()">Batal</button>
+      <button class="btn-save" onclick="saveChanges()">💾 Simpan Perubahan</button>
+    </div>
+  </div>
+</div>
+
+<div class="save-toast" id="saveToast">✅ Data berhasil diperbarui!</div>
+
 <script>
-const groups = {
+// ── DATA ──
+const ADMIN_PIN = '1234'; // Ganti PIN di sini
+
+let groups = {
   1: ["AAN WISNU PRADANA","ABDUL MUIZ","ADE ABDUL MUHYI","ADI WINATA","ADITYA MAULANA SIDIQ","ADIZA DWIANDRINI","AFINA NABILA MAZEDI","AGAZA DWI UTOMO","AHMAD ADRIAN","AHMAD DEFI IRAWAN","AHMAD JUNAEDI","AHMAD MOHAMMAD MUAMAR","AIDIL AKBAR","AKBAR HASYIM","AKBAR JANUARI FADLIH","ALBERT FERNANDO SARDION ARITONANG","ALDI JULIALDI","ALDILA RAHMAN","ALDY AINUS SHOFA","ALI MAHFUD"],
   2: ["ALKINDI HAYUNING CAHYA","AMINAH ZAINAB","ANDREAS SETIAWAN","ANKI TAFTAZANI","ANNISA LUTHFY PUTRI PRAMATA","ANNISHFIA LAILATUR ROHMAH","ANNISSA PERMANASARI","AQIL BUDIMAN","ARDI DARWIN","ARDIANSYAH ARDIANSYAH","ARIS MUNANDAR MUNANDAR","ARWISMAL ARWISMAL","ASHLEY SETIADI","AUSTY INTANIA DWI PUTRI","BAYU WIDYANANTO","BERNARD JATMIKA LAKSANA","BUDIARTI ENDANG LESTARI","CALVIN ADITYA RENATA","CARISSA JESSLYN SIENERA","DANIEL GILBERT H PARDEDE"],
   3: ["DANIEL SIMATUPANG","DAVA MAULANA MALIK","DAVID DARMAWAN","DEA RAHMAWARDANI","DEA SARRA PRAMUDHITA","DEDE MESA BAKTI","DESYAFA AZIZAH QALBI","DEVICA WINATA","DEVY GANISTYA","DHEA SANDRINA","DIESA FASYA PRATAMA","DIMAS ADITYA PUTRA","DIMAS APRIANDANA","EDWARD EXAUDI DOHARA SIAHAAN","EGA BAGAS BAYU SEGARA","ENCEP SURYADI","ERIS KURNIAWAN","EVI ANGGRAINI","FACHRI DESAILY RAMADHAN","FARHAN TIARRAFI PRATAMA"],
@@ -327,109 +300,123 @@ const groups = {
   ]
 };
 
-// Flatten all for search
-const allParticipants = [];
-for (let g = 1; g <= 9; g++) {
-  groups[g].forEach((name, idx) => {
-    allParticipants.push({ name, group: g, no: idx + 1, type: 'regular' });
-  });
-}
-groups[10].forEach((pair, idx) => {
-  pair.forEach(name => {
-    allParticipants.push({ name, group: 10, room: idx + 1, type: 'room' });
-  });
-});
-
-const navTabs = document.getElementById('navTabs');
-const groupPanels = document.getElementById('groupPanels');
-const searchInput = document.getElementById('searchInput');
-const clearBtn = document.getElementById('clearBtn');
-const searchResults = document.getElementById('searchResults');
-const searchList = document.getElementById('searchList');
-const searchLabel = document.getElementById('searchLabel');
-const searchEmpty = document.getElementById('searchEmpty');
-const navWrap = document.getElementById('navWrap');
-
-// Build nav tabs
-for (let g = 1; g <= 10; g++) {
-  const btn = document.createElement('button');
-  btn.className = 'tab-btn' + (g === 1 ? ' active' : '');
-  btn.textContent = 'GRP ' + g;
-  btn.setAttribute('data-g', g);
-  btn.onclick = () => switchGroup(g);
-  navTabs.appendChild(btn);
-}
-
-// Build group panels
-for (let g = 1; g <= 10; g++) {
-  const panel = document.createElement('div');
-  panel.className = 'group-panel' + (g === 1 ? ' active' : '');
-  panel.id = 'panel-' + g;
-
-  const hdr = document.createElement('div');
-  hdr.className = 'group-header';
-  const lbl = document.createElement('div');
-  lbl.className = 'group-label';
-  lbl.textContent = 'Group ' + g;
-  hdr.appendChild(lbl);
-
-  const list = document.createElement('div');
-  list.className = 'participant-list';
-
-  if (g === 10) {
-    const cnt = document.createElement('div');
-    cnt.className = 'group-count';
-    cnt.textContent = (groups[10].length * 2) + ' peserta · ' + groups[10].length + ' kamar';
-    hdr.appendChild(cnt);
-    panel.appendChild(hdr);
-
-    groups[10].forEach((pair, idx) => {
-      const card = document.createElement('div');
-      card.className = 'room-card';
-      const rlbl = document.createElement('div');
-      rlbl.className = 'room-label';
-      rlbl.textContent = 'Kamar ' + (idx + 1);
-      card.appendChild(rlbl);
-      pair.forEach((name, i) => {
-        if (i > 0) { const d = document.createElement('div'); d.className = 'room-divider'; card.appendChild(d); }
-        const n = document.createElement('div');
-        n.className = 'room-name';
-        n.textContent = name;
-        card.appendChild(n);
-      });
-      list.appendChild(card);
-    });
-  } else {
-    const members = groups[g];
-    const cnt = document.createElement('div');
-    cnt.className = 'group-count';
-    cnt.textContent = members.length + ' peserta';
-    hdr.appendChild(cnt);
-    panel.appendChild(hdr);
-
-    members.forEach((name, idx) => {
-      const row = document.createElement('div');
-      row.className = 'participant-row';
-      const no = document.createElement('div');
-      no.className = 'no-num';
-      no.textContent = idx + 1;
-      const nm = document.createElement('div');
-      nm.className = 'participant-name';
-      nm.textContent = name;
-      row.appendChild(no);
-      row.appendChild(nm);
-      list.appendChild(row);
-    });
+// Load from localStorage if exists
+function loadData() {
+  const saved = localStorage.getItem('pesertaData');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      groups = parsed;
+    } catch(e) {}
   }
+}
+loadData();
 
-  panel.appendChild(list);
-  const note = document.createElement('div');
-  note.className = 'bottom-note';
-  note.textContent = 'HOTEL ROOM — MALANG';
-  panel.appendChild(note);
-  groupPanels.appendChild(panel);
+// ── FLATTEN FOR SEARCH ──
+function getAllParticipants() {
+  const all = [];
+  for (let g = 1; g <= 9; g++) {
+    groups[g].forEach((name, idx) => all.push({ name, group: g, no: idx + 1, type: 'regular' }));
+  }
+  groups[10].forEach((pair, idx) => {
+    pair.forEach(name => all.push({ name, group: 10, room: idx + 1, type: 'room' }));
+  });
+  return all;
 }
 
+// ── BUILD UI ──
+function buildUI() {
+  buildNavTabs();
+  buildGroupPanels();
+}
+
+function buildNavTabs() {
+  const navTabs = document.getElementById('navTabs');
+  navTabs.innerHTML = '';
+  for (let g = 1; g <= 10; g++) {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (g === 1 ? ' active' : '');
+    btn.textContent = 'GRP ' + g;
+    btn.setAttribute('data-g', g);
+    btn.onclick = () => switchGroup(g);
+    navTabs.appendChild(btn);
+  }
+}
+
+function buildGroupPanels() {
+  const groupPanels = document.getElementById('groupPanels');
+  groupPanels.innerHTML = '';
+
+  for (let g = 1; g <= 10; g++) {
+    const panel = document.createElement('div');
+    panel.className = 'group-panel' + (g === 1 ? ' active' : '');
+    panel.id = 'panel-' + g;
+
+    const hdr = document.createElement('div');
+    hdr.className = 'group-header';
+    const lbl = document.createElement('div');
+    lbl.className = 'group-label';
+    lbl.textContent = 'Group ' + g;
+    hdr.appendChild(lbl);
+
+    const list = document.createElement('div');
+    list.className = 'participant-list';
+
+    if (g === 10) {
+      const cnt = document.createElement('div');
+      cnt.className = 'group-count';
+      cnt.textContent = (groups[10].length * 2) + ' peserta · ' + groups[10].length + ' kamar';
+      hdr.appendChild(cnt);
+      panel.appendChild(hdr);
+
+      groups[10].forEach((pair, idx) => {
+        const card = document.createElement('div');
+        card.className = 'room-card';
+        const rlbl = document.createElement('div');
+        rlbl.className = 'room-label';
+        rlbl.textContent = 'Kamar ' + (idx + 1);
+        card.appendChild(rlbl);
+        pair.forEach((name, i) => {
+          if (i > 0) { const d = document.createElement('div'); d.className = 'room-divider'; card.appendChild(d); }
+          const n = document.createElement('div');
+          n.className = 'room-name';
+          n.textContent = name;
+          card.appendChild(n);
+        });
+        list.appendChild(card);
+      });
+    } else {
+      const cnt = document.createElement('div');
+      cnt.className = 'group-count';
+      cnt.textContent = groups[g].length + ' peserta';
+      hdr.appendChild(cnt);
+      panel.appendChild(hdr);
+
+      groups[g].forEach((name, idx) => {
+        const row = document.createElement('div');
+        row.className = 'participant-row';
+        const no = document.createElement('div');
+        no.className = 'no-num';
+        no.textContent = idx + 1;
+        const nm = document.createElement('div');
+        nm.className = 'participant-name';
+        nm.textContent = name;
+        row.appendChild(no);
+        row.appendChild(nm);
+        list.appendChild(row);
+      });
+    }
+
+    panel.appendChild(list);
+    const note = document.createElement('div');
+    note.className = 'bottom-note';
+    note.textContent = 'HOTEL ROOM — MALANG';
+    panel.appendChild(note);
+    groupPanels.appendChild(panel);
+  }
+}
+
+// ── SEARCH ──
 function highlight(text, query) {
   if (!query) return text;
   const idx = text.toUpperCase().indexOf(query.toUpperCase());
@@ -440,125 +427,74 @@ function highlight(text, query) {
 function buildGroupMembers(groupNum, activeName, query) {
   const wrap = document.createElement('div');
   wrap.className = 'group-members';
-
   const title = document.createElement('div');
   title.className = 'group-members-title';
 
   if (groupNum === 10) {
     title.textContent = 'Semua anggota Group 10';
     wrap.appendChild(title);
-
     groups[10].forEach((pair, idx) => {
-      const isActiveRoom = pair.includes(activeName);
-      const gap = document.createElement('div');
-      gap.className = 'room-gap';
-
-      const card = document.createElement('div');
-      card.className = 'room-sub-card';
-      if (isActiveRoom) card.style.borderColor = '#ffe600';
-
-      const rlbl = document.createElement('div');
-      rlbl.className = 'room-sub-label';
+      const gap = document.createElement('div'); gap.className = 'room-gap';
+      const card = document.createElement('div'); card.className = 'room-sub-card';
+      if (pair.includes(activeName)) card.style.borderColor = '#ffe600';
+      const rlbl = document.createElement('div'); rlbl.className = 'room-sub-label';
       rlbl.textContent = 'Kamar ' + (idx + 1);
       card.appendChild(rlbl);
-
       pair.forEach((name, i) => {
-        if (i > 0) {
-          const d = document.createElement('div');
-          d.className = 'room-sub-divider';
-          card.appendChild(d);
-        }
+        if (i > 0) { const d = document.createElement('div'); d.className = 'room-sub-divider'; card.appendChild(d); }
         const nm = document.createElement('div');
         nm.className = 'room-sub-name' + (name === activeName ? ' highlighted' : '');
         nm.innerHTML = highlight(name, query);
         card.appendChild(nm);
       });
-
-      wrap.appendChild(gap);
-      wrap.appendChild(card);
+      wrap.appendChild(gap); wrap.appendChild(card);
     });
-
-    const endGap = document.createElement('div');
-    endGap.className = 'room-gap';
-    wrap.appendChild(endGap);
-
+    const eg = document.createElement('div'); eg.className = 'room-gap'; wrap.appendChild(eg);
   } else {
     title.textContent = 'Semua anggota Group ' + groupNum;
     wrap.appendChild(title);
-
     groups[groupNum].forEach((name, idx) => {
       const row = document.createElement('div');
       row.className = 'member-row' + (name === activeName ? ' active-member' : '');
-
-      const no = document.createElement('div');
-      no.className = 'member-no';
-      no.textContent = idx + 1;
-
-      const nm = document.createElement('div');
-      nm.className = 'member-name' + (name === activeName ? ' active-name' : '');
-      nm.innerHTML = highlight(name, query);
-
-      row.appendChild(no);
-      row.appendChild(nm);
-
-      if (name === activeName) {
-        const tag = document.createElement('span');
-        tag.className = 'you-tag';
-        tag.textContent = 'Ini kamu';
-        row.appendChild(tag);
-      }
-
+      const no = document.createElement('div'); no.className = 'member-no'; no.textContent = idx + 1;
+      const nm = document.createElement('div'); nm.className = 'member-name'; nm.innerHTML = highlight(name, query);
+      row.appendChild(no); row.appendChild(nm);
+      if (name === activeName) { const tag = document.createElement('span'); tag.className = 'you-tag'; tag.textContent = 'Ini kamu'; row.appendChild(tag); }
       wrap.appendChild(row);
     });
   }
-
   return wrap;
 }
 
 function buildResultCard(p, query) {
   const card = document.createElement('div');
   card.className = 'result-card';
-
-  const main = document.createElement('div');
-  main.className = 'result-main';
-
-  const nm = document.createElement('div');
-  nm.className = 'result-name';
-  nm.innerHTML = highlight(p.name, query);
-
-  const badge = document.createElement('div');
-  badge.className = 'group-badge';
-  if (p.type === 'room') {
-    badge.textContent = 'GRP 10 · KMR ' + p.room;
-  } else {
-    badge.textContent = 'GRP ' + p.group;
-  }
-
-  const arrow = document.createElement('span');
-  arrow.className = 'expand-arrow';
-  arrow.textContent = '▾';
-
-  main.appendChild(nm);
-  main.appendChild(badge);
-  main.appendChild(arrow);
+  const main = document.createElement('div'); main.className = 'result-main';
+  const nm = document.createElement('div'); nm.className = 'result-name'; nm.innerHTML = highlight(p.name, query);
+  const badge = document.createElement('div'); badge.className = 'group-badge';
+  badge.textContent = p.type === 'room' ? 'GRP 10 · KMR ' + p.room : 'GRP ' + p.group;
+  const arrow = document.createElement('span'); arrow.className = 'expand-arrow'; arrow.textContent = '▾';
+  main.appendChild(nm); main.appendChild(badge); main.appendChild(arrow);
   card.appendChild(main);
-
   const members = buildGroupMembers(p.group, p.name, query);
   card.appendChild(members);
-
-  // Tap to expand/collapse
   main.addEventListener('click', () => {
     const isOpen = card.classList.contains('open');
-    // Close all others
     document.querySelectorAll('.result-card.open').forEach(c => c.classList.remove('open'));
     if (!isOpen) card.classList.add('open');
   });
-
   return card;
 }
 
 function doSearch(query) {
   const q = query.trim();
+  const clearBtn = document.getElementById('clearBtn');
+  const navWrap = document.getElementById('navWrap');
+  const searchResults = document.getElementById('searchResults');
+  const searchList = document.getElementById('searchList');
+  const searchLabel = document.getElementById('searchLabel');
+  const searchEmpty = document.getElementById('searchEmpty');
+
   clearBtn.classList.toggle('visible', q.length > 0);
 
   if (q.length === 0) {
@@ -575,7 +511,7 @@ function doSearch(query) {
   searchList.innerHTML = '';
   searchEmpty.style.display = 'none';
 
-  const found = allParticipants.filter(p => p.name.toUpperCase().includes(q.toUpperCase()));
+  const found = getAllParticipants().filter(p => p.name.toUpperCase().includes(q.toUpperCase()));
 
   if (found.length === 0) {
     searchEmpty.style.display = 'block';
@@ -584,37 +520,164 @@ function doSearch(query) {
   }
 
   searchLabel.textContent = found.length + ' peserta ditemukan — ketuk untuk lihat anggota grup';
-
-  found.forEach(p => {
-    const card = buildResultCard(p, q);
-    searchList.appendChild(card);
-  });
-
-  // Auto-expand if only 1 result
-  if (found.length === 1) {
-    searchList.querySelector('.result-card').classList.add('open');
-  }
+  found.forEach(p => searchList.appendChild(buildResultCard(p, q)));
+  if (found.length === 1) searchList.querySelector('.result-card').classList.add('open');
 }
 
 function clearSearch() {
-  searchInput.value = '';
+  document.getElementById('searchInput').value = '';
   doSearch('');
-  searchInput.focus();
+  document.getElementById('searchInput').focus();
 }
 
-searchInput.addEventListener('input', (e) => doSearch(e.target.value));
+document.getElementById('searchInput').addEventListener('input', e => doSearch(e.target.value));
 
 function switchGroup(g) {
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', parseInt(b.getAttribute('data-g')) === g);
-  });
-  document.querySelectorAll('.group-panel').forEach((p, i) => {
-    p.style.display = '';
-    p.classList.toggle('active', i === g - 1);
-  });
-  const activeBtn = document.querySelector('.tab-btn.active');
-  if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', parseInt(b.getAttribute('data-g')) === g));
+  document.querySelectorAll('.group-panel').forEach((p, i) => { p.style.display = ''; p.classList.toggle('active', i === g - 1); });
+  const ab = document.querySelector('.tab-btn.active');
+  if (ab) ab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 }
+
+// ── ADMIN PANEL ──
+let adminUnlocked = false;
+
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').classList.remove('show');
+  document.getElementById('pinInput').classList.remove('error');
+  if (!adminUnlocked) {
+    document.getElementById('adminLock').style.display = 'flex';
+    document.getElementById('adminBody').classList.remove('unlocked');
+    document.getElementById('adminActions').style.display = 'none';
+    setTimeout(() => document.getElementById('pinInput').focus(), 300);
+  } else {
+    document.getElementById('adminLock').style.display = 'none';
+    document.getElementById('adminBody').classList.add('unlocked');
+    document.getElementById('adminActions').style.display = 'flex';
+    loadAdminGroup();
+  }
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+document.getElementById('adminOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+
+document.getElementById('pinInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPin();
+});
+
+function checkPin() {
+  const val = document.getElementById('pinInput').value;
+  const errEl = document.getElementById('pinError');
+  const inputEl = document.getElementById('pinInput');
+  if (val === ADMIN_PIN) {
+    adminUnlocked = true;
+    document.getElementById('adminLock').style.display = 'none';
+    document.getElementById('adminBody').classList.add('unlocked');
+    document.getElementById('adminActions').style.display = 'flex';
+    errEl.classList.remove('show');
+    inputEl.classList.remove('error');
+    loadAdminGroup();
+  } else {
+    errEl.classList.add('show');
+    inputEl.classList.add('error');
+    inputEl.value = '';
+    inputEl.focus();
+  }
+}
+
+function loadAdminGroup() {
+  const g = parseInt(document.getElementById('adminGroupSelect').value);
+  const container = document.getElementById('adminMemberList');
+  container.innerHTML = '';
+
+  if (g === 10) {
+    const section = document.createElement('div');
+    section.className = 'admin-room-section';
+    groups[10].forEach((pair, idx) => {
+      const card = document.createElement('div');
+      card.className = 'admin-room-card';
+      const rlbl = document.createElement('div');
+      rlbl.className = 'admin-room-lbl';
+      rlbl.textContent = 'Kamar ' + (idx + 1);
+      card.appendChild(rlbl);
+      pair.forEach((name, i) => {
+        const row = document.createElement('div');
+        row.className = 'admin-room-row';
+        const inp = document.createElement('input');
+        inp.className = 'admin-name-input';
+        inp.type = 'text';
+        inp.value = name;
+        inp.setAttribute('data-room', idx);
+        inp.setAttribute('data-slot', i);
+        row.appendChild(inp);
+        card.appendChild(row);
+      });
+      section.appendChild(card);
+    });
+    container.appendChild(section);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'admin-members';
+    groups[g].forEach((name, idx) => {
+      const row = document.createElement('div');
+      row.className = 'admin-member-row';
+      const no = document.createElement('div');
+      no.className = 'admin-no';
+      no.textContent = idx + 1;
+      const inp = document.createElement('input');
+      inp.className = 'admin-name-input';
+      inp.type = 'text';
+      inp.value = name;
+      inp.setAttribute('data-idx', idx);
+      row.appendChild(no);
+      row.appendChild(inp);
+      list.appendChild(row);
+    });
+    container.appendChild(list);
+  }
+}
+
+function saveChanges() {
+  const g = parseInt(document.getElementById('adminGroupSelect').value);
+
+  if (g === 10) {
+    const inputs = document.querySelectorAll('#adminMemberList .admin-name-input');
+    inputs.forEach(inp => {
+      const room = parseInt(inp.getAttribute('data-room'));
+      const slot = parseInt(inp.getAttribute('data-slot'));
+      groups[10][room][slot] = inp.value.trim().toUpperCase();
+    });
+  } else {
+    const inputs = document.querySelectorAll('#adminMemberList .admin-name-input');
+    inputs.forEach(inp => {
+      const idx = parseInt(inp.getAttribute('data-idx'));
+      groups[g][idx] = inp.value.trim().toUpperCase();
+    });
+  }
+
+  // Save to localStorage
+  localStorage.setItem('pesertaData', JSON.stringify(groups));
+
+  // Rebuild UI
+  buildUI();
+
+  // Show toast
+  const toast = document.getElementById('saveToast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+
+  closeAdmin();
+}
+
+// ── INIT ──
+buildUI();
 </script>
 
 </body>
