@@ -8,7 +8,22 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4ff; color: #1a1a1a; min-height: 100vh; }
 
-  /* ── HEADER ── */
+  /* LOADING */
+  #loadingScreen {
+    position: fixed; inset: 0; background: #003DA5;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 9999; gap: 16px;
+  }
+  #loadingScreen h2 { color: #fff; font-size: 16px; letter-spacing: 2px; font-weight: 600; }
+  #loadingScreen p { color: rgba(255,255,255,0.6); font-size: 13px; }
+  .spinner {
+    width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* HEADER */
   .header { background: #003DA5; color: #fff; text-align: center; padding: 1.25rem 1rem 0.75rem; position: sticky; top: 0; z-index: 100; }
   .header h1 { font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
   .header p { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 1px; margin-bottom: 0.75rem; }
@@ -20,7 +35,7 @@
   .clear-btn { background: none; border: none; color: rgba(255,255,255,0.45); font-size: 18px; cursor: pointer; padding: 4px; display: none; line-height: 1; }
   .clear-btn.visible { display: block; }
 
-  /* ── NAV TABS ── */
+  /* NAV */
   .nav-wrap { background: #003DA5; padding: 0 0.75rem 0.75rem; position: sticky; top: 130px; z-index: 99; }
   .nav-wrap.hidden { display: none; }
   .nav-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
@@ -30,7 +45,7 @@
 
   .container { max-width: 480px; margin: 0 auto; padding: 1rem; }
 
-  /* ── SEARCH RESULTS ── */
+  /* SEARCH */
   .search-results { display: none; }
   .search-results.active { display: block; }
   .search-results-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.75rem; }
@@ -43,15 +58,18 @@
   .participant-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; flex: 1; line-height: 1.3; }
   .participant-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
 
-  .result-card { background: #fff; border-radius: 10px; border: 1px solid #eeeee9; overflow: hidden; margin-bottom: 5px; cursor: pointer; transition: border-color 0.15s; }
-  .result-card:active { border-color: #ffe600; }
+  /* kamar badge di list */
+  .kamar-badge { font-size: 10px; font-weight: 700; background: #e8f0fd; color: #003DA5; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; white-space: nowrap; }
+  .kamar-badge.empty { background: #f0f0ec; color: #bbb; }
+
+  /* RESULT CARD */
+  .result-card { background: #fff; border-radius: 10px; border: 1px solid #eeeee9; overflow: hidden; margin-bottom: 5px; cursor: pointer; }
   .result-main { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
   .result-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; flex: 1; line-height: 1.3; }
   .result-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
   .group-badge { font-size: 10px; font-weight: 700; background: #003DA5; color: #fff; padding: 4px 9px; border-radius: 20px; letter-spacing: 0.5px; flex-shrink: 0; }
   .expand-arrow { font-size: 13px; color: #bbb; flex-shrink: 0; transition: transform 0.2s; }
   .result-card.open .expand-arrow { transform: rotate(180deg); }
-
   .group-members { display: none; border-top: 1px solid #f0f0ec; background: #fafaf8; padding: 8px 0; }
   .result-card.open .group-members { display: block; }
   .group-members-title { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #aaa; text-transform: uppercase; padding: 4px 14px 8px; }
@@ -62,16 +80,21 @@
   .member-name { font-size: 13px; font-weight: 600; color: #1a1a1a; flex: 1; line-height: 1.3; }
   .member-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
   .you-tag { font-size: 10px; font-weight: 700; background: #5BC2E7; color: #fff; padding: 2px 7px; border-radius: 20px; letter-spacing: 0.3px; flex-shrink: 0; }
+  .member-kamar { font-size: 10px; font-weight: 700; background: #e8f0fd; color: #003DA5; padding: 2px 7px; border-radius: 20px; flex-shrink: 0; white-space: nowrap; }
+  .member-kamar.empty { background: #f0f0ec; color: #bbb; }
 
+  /* ROOM (group 10) */
   .room-sub-card { margin: 4px 10px; border-radius: 8px; background: #fff; border: 1px solid #eeeee9; overflow: hidden; }
   .room-sub-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #bbb; text-transform: uppercase; padding: 6px 12px 4px; }
-  .room-sub-name { font-size: 13px; font-weight: 600; color: #1a1a1a; padding: 4px 12px; line-height: 1.35; }
+  .room-sub-name { font-size: 13px; font-weight: 600; color: #1a1a1a; padding: 4px 12px; line-height: 1.35; display: flex; align-items: center; gap: 8px; }
   .room-sub-name.highlighted { background: #e8f0fd; }
   .room-sub-name mark { background: #5BC2E7; color: #fff; border-radius: 3px; padding: 0 1px; }
   .room-sub-divider { height: 1px; background: #f0f0ec; margin: 0 12px; }
   .room-gap { height: 6px; }
+  .room-no-kamar { font-size: 10px; font-weight: 700; background: #e8f0fd; color: #003DA5; padding: 2px 7px; border-radius: 20px; margin-left: auto; flex-shrink: 0; }
+  .room-no-kamar.empty { background: #f0f0ec; color: #bbb; }
 
-  /* ── GROUP PANELS ── */
+  /* GROUP PANELS */
   .group-panel { display: none; }
   .group-panel.active { display: block; }
   .group-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
@@ -79,159 +102,99 @@
   .group-count { font-size: 11px; font-weight: 600; background: #e8e8e4; color: #555; padding: 3px 10px; border-radius: 20px; }
   .room-card { background: #fff; border-radius: 10px; border: 1px solid #eeeee9; padding: 11px 14px; margin-bottom: 5px; }
   .room-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #bbb; margin-bottom: 6px; text-transform: uppercase; }
-  .room-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; padding: 2px 0; line-height: 1.35; }
+  .room-name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 0; }
+  .room-name { font-size: 13.5px; font-weight: 600; color: #1a1a1a; letter-spacing: 0.3px; line-height: 1.35; flex: 1; }
   .room-divider { height: 1px; background: #f0f0ec; margin: 5px 0; }
   .bottom-note { text-align: center; font-size: 11px; color: #aaa; margin-top: 1.5rem; padding-bottom: 2rem; letter-spacing: 0.5px; }
 
-  /* ── ADMIN PANEL ── */
-  #adminBtn {
-    position: fixed; bottom: 20px; right: 20px; z-index: 999;
-    width: 46px; height: 46px; border-radius: 50%;
-    background: #003DA5; color: #fff; border: none;
-    font-size: 20px; cursor: pointer;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  #adminOverlay {
-    display: none;
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.5);
-  }
+  /* ADMIN */
+  #adminBtn { position: fixed; bottom: 20px; right: 20px; z-index: 999; width: 46px; height: 46px; border-radius: 50%; background: #003DA5; color: #fff; border: none; font-size: 20px; cursor: pointer; box-shadow: 0 2px 12px rgba(0,61,165,0.35); display: flex; align-items: center; justify-content: center; }
+  #adminOverlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.5); }
   #adminOverlay.open { display: flex; flex-direction: column; }
-
-  #adminPanel {
-    background: #fff;
-    border-radius: 20px 20px 0 0;
-    margin-top: auto;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .admin-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 1px solid #eeeee9;
-    flex-shrink: 0;
-  }
+  #adminPanel { background: #fff; border-radius: 20px 20px 0 0; margin-top: auto; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid #eeeee9; flex-shrink: 0; }
   .admin-header h2 { font-size: 15px; font-weight: 600; color: #003DA5; }
   .admin-close { background: none; border: none; font-size: 22px; color: #aaa; cursor: pointer; line-height: 1; padding: 4px; }
-
-  .admin-lock {
-    padding: 1.5rem 1.25rem;
-    display: flex; flex-direction: column; gap: 12px;
-  }
+  .admin-lock { padding: 1.5rem 1.25rem; display: flex; flex-direction: column; gap: 12px; }
   .admin-lock p { font-size: 13px; color: #888; }
   .pin-row { display: flex; gap: 8px; }
-  .pin-input {
-    flex: 1; border: 1.5px solid #eeeee9; border-radius: 10px;
-    padding: 10px 14px; font-size: 16px; font-family: inherit;
-    outline: none; letter-spacing: 4px;
-  }
+  .pin-input { flex: 1; border: 1.5px solid #eeeee9; border-radius: 10px; padding: 10px 14px; font-size: 16px; font-family: inherit; outline: none; letter-spacing: 4px; }
   .pin-input:focus { border-color: #003DA5; }
   .pin-input.error { border-color: #e53e3e; }
-  .btn-primary {
-    background: #003DA5; color: #fff; border: none;
-    border-radius: 10px; padding: 10px 20px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    font-family: inherit;
-  }
-  .btn-primary:active { opacity: 0.8; }
+  .btn-primary { background: #003DA5; color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
   .pin-error { font-size: 12px; color: #e53e3e; display: none; }
   .pin-error.show { display: block; }
-
-  .admin-body {
-    flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
-    display: none; flex-direction: column; gap: 1rem;
-  }
+  .admin-body { flex: 1; overflow-y: auto; padding: 1rem 1.25rem; display: none; flex-direction: column; gap: 1rem; }
   .admin-body.unlocked { display: flex; }
-
   .admin-group-select { display: flex; flex-direction: column; gap: 8px; }
   .admin-group-select label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #888; text-transform: uppercase; }
-  .admin-select {
-    border: 1.5px solid #eeeee9; border-radius: 10px;
-    padding: 10px 14px; font-size: 14px; font-family: inherit;
-    outline: none; background: #fff; color: #1a1a1a;
-  }
+  .admin-select { border: 1.5px solid #eeeee9; border-radius: 10px; padding: 10px 14px; font-size: 14px; font-family: inherit; outline: none; background: #fff; color: #1a1a1a; }
   .admin-select:focus { border-color: #003DA5; }
-
   .admin-members { display: flex; flex-direction: column; gap: 6px; }
-  .admin-member-row {
-    display: flex; align-items: center; gap: 8px;
-    background: #fafaf8; border: 1px solid #eeeee9;
-    border-radius: 10px; padding: 8px 12px;
-  }
+  .admin-member-row { display: flex; align-items: center; gap: 8px; background: #fafaf8; border: 1px solid #eeeee9; border-radius: 10px; padding: 8px 12px; }
   .admin-no { font-size: 11px; color: #bbb; font-weight: 600; min-width: 18px; text-align: right; flex-shrink: 0; }
-  .admin-name-input {
-    flex: 1; border: none; background: transparent;
-    font-size: 13.5px; font-weight: 600; color: #1a1a1a;
-    font-family: inherit; outline: none; padding: 2px 4px;
-    border-radius: 6px; letter-spacing: 0.3px;
-    text-transform: uppercase;
-  }
+  .admin-name-input { flex: 1; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #1a1a1a; font-family: inherit; outline: none; padding: 2px 4px; border-radius: 6px; text-transform: uppercase; min-width: 0; }
   .admin-name-input:focus { background: #fff; outline: 2px solid #5BC2E7; }
-
-  .admin-actions { display: flex; gap: 8px; padding-bottom: 1rem; flex-shrink: 0; }
+  .admin-kamar-input { width: 70px; border: 1.5px solid #eeeee9; background: #fff; font-size: 12px; font-weight: 600; color: #003DA5; font-family: inherit; outline: none; padding: 4px 8px; border-radius: 8px; text-align: center; flex-shrink: 0; }
+  .admin-kamar-input:focus { border-color: #003DA5; outline: none; }
+  .admin-kamar-label { font-size: 10px; color: #aaa; font-weight: 600; flex-shrink: 0; }
+  .admin-actions { display: flex; gap: 8px; padding: 0 1.25rem 1rem; flex-shrink: 0; }
   .btn-save { flex: 1; background: #003DA5; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-  .btn-save:active { opacity: 0.8; }
   .btn-cancel { background: #f0f0ec; color: #555; border: none; border-radius: 10px; padding: 12px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
-
-  .save-toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-    background: #003DA5; color: #fff; font-size: 13px; font-weight: 600;
-    padding: 10px 20px; border-radius: 20px; z-index: 2000;
-    opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    white-space: nowrap;
-  }
-  .save-toast.show { opacity: 1; }
-
-  /* Room edit for group 10 */
   .admin-room-section { display: flex; flex-direction: column; gap: 6px; }
   .admin-room-card { background: #fafaf8; border: 1px solid #eeeee9; border-radius: 10px; overflow: hidden; }
   .admin-room-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #bbb; text-transform: uppercase; padding: 8px 12px 4px; }
   .admin-room-row { display: flex; align-items: center; gap: 8px; padding: 4px 12px 8px; }
+  .save-toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #003DA5; color: #fff; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 20px; z-index: 2000; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+  .save-toast.show { opacity: 1; }
+  .saving-indicator { font-size: 12px; color: #888; text-align: center; padding: 4px; display: none; }
+  .saving-indicator.show { display: block; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Daftar Peserta</h1>
-  <p>HOTEL ROOM — MALANG</p>
-  <div class="search-wrap">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" type="text" id="searchInput" placeholder="Cari nama peserta..." autocomplete="off" />
-      <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <h2>DAFTAR PESERTA</h2>
+  <p>Memuat data...</p>
+</div>
+
+<div id="appContent" style="display:none">
+  <div class="header">
+    <h1>Daftar Peserta</h1>
+    <p>HOTEL ROOM — MALANG</p>
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" id="searchInput" placeholder="Cari nama peserta..." autocomplete="off" />
+        <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="nav-wrap" id="navWrap">
-  <div class="nav-tabs" id="navTabs"></div>
-</div>
-
-<div class="container">
-  <div class="search-results" id="searchResults">
-    <div class="search-results-label" id="searchLabel"></div>
-    <div id="searchList"></div>
-    <div class="search-empty" id="searchEmpty" style="display:none"><span>🔎</span>Nama tidak ditemukan</div>
+  <div class="nav-wrap" id="navWrap">
+    <div class="nav-tabs" id="navTabs"></div>
   </div>
-  <div id="groupPanels"></div>
+
+  <div class="container">
+    <div class="search-results" id="searchResults">
+      <div class="search-results-label" id="searchLabel"></div>
+      <div id="searchList"></div>
+      <div class="search-empty" id="searchEmpty" style="display:none"><span>🔎</span>Nama tidak ditemukan</div>
+    </div>
+    <div id="groupPanels"></div>
+  </div>
 </div>
 
-<!-- Admin button -->
 <button id="adminBtn" onclick="openAdmin()" title="Admin">⚙️</button>
 
-<!-- Admin overlay -->
 <div id="adminOverlay">
   <div id="adminPanel">
     <div class="admin-header">
       <h2>✏️ Edit Data Peserta</h2>
       <button class="admin-close" onclick="closeAdmin()">✕</button>
     </div>
-
-    <!-- Lock screen -->
     <div class="admin-lock" id="adminLock">
       <p>Masukkan PIN untuk mengakses panel edit.</p>
       <div class="pin-row">
@@ -240,88 +203,99 @@
       </div>
       <div class="pin-error" id="pinError">PIN salah. Coba lagi.</div>
     </div>
-
-    <!-- Edit body -->
     <div class="admin-body" id="adminBody">
       <div class="admin-group-select">
         <label>Pilih Group</label>
         <select class="admin-select" id="adminGroupSelect" onchange="loadAdminGroup()">
-          <option value="1">Group 1</option>
-          <option value="2">Group 2</option>
-          <option value="3">Group 3</option>
-          <option value="4">Group 4</option>
-          <option value="5">Group 5</option>
-          <option value="6">Group 6</option>
-          <option value="7">Group 7</option>
-          <option value="8">Group 8</option>
-          <option value="9">Group 9</option>
-          <option value="10">Group 10</option>
+          <option value="1">Group 1</option><option value="2">Group 2</option>
+          <option value="3">Group 3</option><option value="4">Group 4</option>
+          <option value="5">Group 5</option><option value="6">Group 6</option>
+          <option value="7">Group 7</option><option value="8">Group 8</option>
+          <option value="9">Group 9</option><option value="10">Group 10</option>
         </select>
       </div>
       <div id="adminMemberList"></div>
+      <div class="saving-indicator" id="savingIndicator">⏳ Menyimpan ke database...</div>
     </div>
-
-    <div class="admin-actions" id="adminActions" style="display:none; padding: 0 1.25rem;">
+    <div class="admin-actions" id="adminActions" style="display:none; padding: 0 1.25rem 1rem;">
       <button class="btn-cancel" onclick="closeAdmin()">Batal</button>
       <button class="btn-save" onclick="saveChanges()">💾 Simpan Perubahan</button>
     </div>
   </div>
 </div>
 
-<div class="save-toast" id="saveToast">✅ Data berhasil diperbarui!</div>
+<div class="save-toast" id="saveToast"></div>
 
 <script>
-// ── DATA ──
-const ADMIN_PIN = '1234'; // Ganti PIN di sini
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://bqhjrsdymgmqawrixbvt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_0QLzzD91GQo2Tu0V2PA6jg_IAxVrtJM';
+const ADMIN_PIN = '1234'; // Ganti PIN sesuai keinginan
 
-let groups = {
-  1: ["AAN WISNU PRADANA","ABDUL MUIZ","ADE ABDUL MUHYI","ADI WINATA","ADITYA MAULANA SIDIQ","ADIZA DWIANDRINI","AFINA NABILA MAZEDI","AGAZA DWI UTOMO","AHMAD ADRIAN","AHMAD DEFI IRAWAN","AHMAD JUNAEDI","AHMAD MOHAMMAD MUAMAR","AIDIL AKBAR","AKBAR HASYIM","AKBAR JANUARI FADLIH","ALBERT FERNANDO SARDION ARITONANG","ALDI JULIALDI","ALDILA RAHMAN","ALDY AINUS SHOFA","ALI MAHFUD"],
-  2: ["ALKINDI HAYUNING CAHYA","AMINAH ZAINAB","ANDREAS SETIAWAN","ANKI TAFTAZANI","ANNISA LUTHFY PUTRI PRAMATA","ANNISHFIA LAILATUR ROHMAH","ANNISSA PERMANASARI","AQIL BUDIMAN","ARDI DARWIN","ARDIANSYAH ARDIANSYAH","ARIS MUNANDAR MUNANDAR","ARWISMAL ARWISMAL","ASHLEY SETIADI","AUSTY INTANIA DWI PUTRI","BAYU WIDYANANTO","BERNARD JATMIKA LAKSANA","BUDIARTI ENDANG LESTARI","CALVIN ADITYA RENATA","CARISSA JESSLYN SIENERA","DANIEL GILBERT H PARDEDE"],
-  3: ["DANIEL SIMATUPANG","DAVA MAULANA MALIK","DAVID DARMAWAN","DEA RAHMAWARDANI","DEA SARRA PRAMUDHITA","DEDE MESA BAKTI","DESYAFA AZIZAH QALBI","DEVICA WINATA","DEVY GANISTYA","DHEA SANDRINA","DIESA FASYA PRATAMA","DIMAS ADITYA PUTRA","DIMAS APRIANDANA","EDWARD EXAUDI DOHARA SIAHAAN","EGA BAGAS BAYU SEGARA","ENCEP SURYADI","ERIS KURNIAWAN","EVI ANGGRAINI","FACHRI DESAILY RAMADHAN","FARHAN TIARRAFI PRATAMA"],
-  4: ["FARIDA YULIANI","FARIDHATUL UNSIYYAH","FARKHIYAH FARKHIYAH","FATMA INDAH SARI","FAZAR REZHA FAUZY","FEBRI KURNIA HANDOKO","FERRY HARTANTO","FHERLY FIHEN YUTRA","FIKRI MUSTHOFA","FIRAZ FIRAZ","FIYA IZZA ANBIYA","FRANSISKUS RAFAEL HARYADI","HAGATA AERSADA GINTING","HAIDAR ALI","HANDARI NUSA PUTRI","HANITA NIAN SARI","HELI JOYO PRASETYO","HENDRY DWI MIYANTO","HIKMAH GUSTAMA NATAPRADJA","HILLYA HILLYA"],
-  5: ["IDA EL METHELINA MANIK","IGNATIUS ENRICO BRAMANTYA","ILHAM ASYAUFI SAPUTRA","ILHAM BURHANNUDIN RASYID","IMMANUEL GIUSTINO","JEJEN ZAENUDIN ARIF","JESSICA JESSICA","JIHADUL RAHMAN","KANIA EMYRA DJAROT","KARYN GABRIELLA","KHAERUL ANWAR","KHAFID KURNIAWAN JATI","KURNIA ANASTHASIA KALUTI","LEONARDO ANDRIAN","LUCKY LUTHFITO WIJAYA","LULUS SATRIA PEARL","LUTFIL KHAKIM","M HERSA KURNIAWAN","M SUTANTO GUMAY","M SYAFAAT RAHADHI"],
-  6: ["MANGIRING SIAGIAN","MANJIT KUMAR PANDEY","MAR'ATUS SHOLICHAH","MARLIANA ATMI RAHAYU","MATIUS ALEXANDER SITORUS","MERCYS LUCYA NATALIA TAMBUNAN","MILENIA JOVANCA MUNTHE","MIZAN SANUBARI","MOCHAMAD RIZALDI","MOCHAMMAD RIZKY LAZUARDI","MOHAMAD ALIEF ZAIDAN SYAFIQ","MOHAMMAD YUSUF ADIO ANSHORI","MUCHLAS SOBARI NOVIYANTO","MUHAJIR","MUHAMMAD ADIB HADIYAN SHAH","MUHAMMAD ASHRAF","MUHAMMAD FIANSA DWI ANANTO","MUHAMMAD GHAFY RIZQILLA FATHONI","MUHAMMAD RAFLI FIRMANSYAH","MUHAMMAD RIZKY KARIM"],
-  7: ["MUTHIA AZ-ZAHRA","NABILLA RAFAINI PUTRI","NADIA PRATIWI","NAUFAL AFIF AMRULLOH","NENDEN KURNIASIH ANGGRAENI","NIKEN RANIAH WARAD","NIKO SETIAWAN","NINDYA TRI UTAMA","NOVIAN LAMANDA PUTRA","NOVIANI DWI SAPUTRI","NUGROHO TRI ATMAJA","NUR ILHAM RAMADHAN","NURSAYYIDAH AINUN JAHSY","NURUL ISNAYNI","ODE FAKHRINA","PAUNDRA DWI LAKSONO","PEBRI JOKO ATMOKO","POPY SISWOYO","PRAMADYA ANGGARA ANGGARA","PURNIMA DEWI SYABANI"],
-  8: ["PUTRI BIRRU PUSPA PRADANOV","PUTRI PRADANI","RAHMAT MULYADI NASUTION","RANGGA ANDRIAN WARDHANA","RENDI RIANA","RIAN TRIANDI","RICHARD WILIAM","RIDHO BASTIAN","RIKKY MANALU","RIO ADITYA RAMADHANA","RIZKI DWI NUGRAHA","ROY KURNIAWAN TADJOEDIN","SAFIRA ANINDITA","SAMUEL ADITYA CHRISTIANTA","SANDRINA THERESYA PURBA","SANTIKA CIPTAWIJAYA","SANTIKA NINDYA HAPSARI WIBOWO","SARTIKA DEWI","SENDY GUNAWAN","SHAGOVA MAULANA KHALAFIANO"],
-  9: ["SHERINA DEBORA MELLINNIA","SIGIT HERNAWAN","SITTA FAHMI AINI","SOJUARGON SYAH BINTANG SIMATUPANG","SOPYAN SYAURI","STEVEN ANTONIO","SUWANTO SUWANTO","SYAHRUL RAMADAN","TITIK LESTARI","TITO ADI NUGROHO","TUBAGUS IRVAN KURNIAWAN","URI ANA","VERA AMELIA PERMATASARI","VINCENTIA ADELINA HARIYANTO","WAWAN INDRIARDI PUTRA","WIDYA PIQRA","WILLASTA HARIADI SURBAKTI","WINDRA BAYU BASTIAN","YAN CAHYO","YEVIE RISFIAN PEBRIANI","YU ZHU","YUSTINA MYRNA ARIELLA","YUSUF MUHAMMAD ARIEF","ZAKARIAS NITI SUKMA ATMAJA","ZIDNI ZAKIYYAH AHMAD"],
-  10: [
-    ["AAN ROMADONI","NURITA ENDARWATI"],
-    ["AGE TEGARI GERALDIANA","ILHAM PRASETYO AJI"],
-    ["ALIFIA RETA PANGESTI","YUDHA PRATAMA NUGRAHA"],
-    ["AMANDA PAVITA","MOHAMMAD RIZKY KURNIAWAN"],
-    ["ARDIANTO BAYUAJI MAHARDIKA","ERLINA RATNASARI"],
-    ["HABRAN ZALI","MESI RIA SUKMA"],
-    ["HENGKI PRIMA ARI PRADANA","INDAH MAYA SOFIE"],
-    ["KAVIN YUDHITIA","RIZA NOVIA PRATIWI"],
-    ["NISA RIDHAYATI","BONNI"],
-    ["MUHAMMAD ARDYANTHO","RISNA SUCI AYU"],
-    ["FITRIANINGSIH FITRIANINGSIH","ARIS YUDI PRASETYA"],
-    ["SRI NOVIDAYANTI","TRIANTO"]
-  ]
-};
+// ── API HELPERS ──
+async function dbFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
+      ...options.headers
+    },
+    ...options
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+  if (res.status === 204 || res.headers.get('content-length') === '0') return null;
+  return res.json();
+}
 
-// Load from localStorage if exists
-function loadData() {
-  const saved = localStorage.getItem('pesertaData');
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      groups = parsed;
-    } catch(e) {}
+async function getAllData() {
+  return dbFetch('peserta?select=*&order=group_number,slot');
+}
+
+async function updateRow(id, data) {
+  return dbFetch(`peserta?id=eq.${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  });
+}
+
+// ── STATE ──
+let allRows = []; // raw from DB
+let groups = {};  // structured: groups[g] = [{id, nama, no_kamar, slot, room_pair}, ...]
+let adminUnlocked = false;
+
+function structureData(rows) {
+  groups = {};
+  for (let g = 1; g <= 10; g++) groups[g] = [];
+  rows.forEach(r => {
+    if (groups[r.group_number]) groups[r.group_number].push(r);
+  });
+  for (let g = 1; g <= 10; g++) {
+    groups[g].sort((a, b) => a.slot - b.slot);
   }
 }
-loadData();
 
-// ── FLATTEN FOR SEARCH ──
-function getAllParticipants() {
-  const all = [];
-  for (let g = 1; g <= 9; g++) {
-    groups[g].forEach((name, idx) => all.push({ name, group: g, no: idx + 1, type: 'regular' }));
+// ── INIT ──
+async function init() {
+  try {
+    allRows = await getAllData();
+    structureData(allRows);
+    buildUI();
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+  } catch(e) {
+    document.getElementById('loadingScreen').innerHTML = `
+      <div style="text-align:center;padding:2rem;color:#fff">
+        <div style="font-size:32px;margin-bottom:12px">⚠️</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:8px">Gagal memuat data</div>
+        <div style="font-size:12px;opacity:0.7;margin-bottom:16px">${e.message}</div>
+        <button onclick="init()" style="background:#fff;color:#003DA5;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer">Coba Lagi</button>
+      </div>`;
   }
-  groups[10].forEach((pair, idx) => {
-    pair.forEach(name => all.push({ name, group: 10, room: idx + 1, type: 'room' }));
-  });
-  return all;
 }
 
 // ── BUILD UI ──
@@ -331,22 +305,21 @@ function buildUI() {
 }
 
 function buildNavTabs() {
-  const navTabs = document.getElementById('navTabs');
-  navTabs.innerHTML = '';
+  const el = document.getElementById('navTabs');
+  el.innerHTML = '';
   for (let g = 1; g <= 10; g++) {
     const btn = document.createElement('button');
     btn.className = 'tab-btn' + (g === 1 ? ' active' : '');
     btn.textContent = 'GRP ' + g;
     btn.setAttribute('data-g', g);
     btn.onclick = () => switchGroup(g);
-    navTabs.appendChild(btn);
+    el.appendChild(btn);
   }
 }
 
 function buildGroupPanels() {
-  const groupPanels = document.getElementById('groupPanels');
-  groupPanels.innerHTML = '';
-
+  const el = document.getElementById('groupPanels');
+  el.innerHTML = '';
   for (let g = 1; g <= 10; g++) {
     const panel = document.createElement('div');
     panel.className = 'group-panel' + (g === 1 ? ' active' : '');
@@ -363,25 +336,38 @@ function buildGroupPanels() {
     list.className = 'participant-list';
 
     if (g === 10) {
+      // group by room_pair
+      const pairs = {};
+      groups[10].forEach(r => {
+        if (!pairs[r.room_pair]) pairs[r.room_pair] = [];
+        pairs[r.room_pair].push(r);
+      });
       const cnt = document.createElement('div');
       cnt.className = 'group-count';
-      cnt.textContent = (groups[10].length * 2) + ' peserta · ' + groups[10].length + ' kamar';
+      cnt.textContent = groups[10].length + ' peserta · ' + Object.keys(pairs).length + ' kamar';
       hdr.appendChild(cnt);
       panel.appendChild(hdr);
 
-      groups[10].forEach((pair, idx) => {
+      Object.keys(pairs).sort((a,b)=>a-b).forEach(pairKey => {
+        const pair = pairs[pairKey];
         const card = document.createElement('div');
         card.className = 'room-card';
         const rlbl = document.createElement('div');
         rlbl.className = 'room-label';
-        rlbl.textContent = 'Kamar ' + (idx + 1);
+        // Use no_kamar from first member if available
+        const noKamar = pair[0].no_kamar;
+        rlbl.textContent = 'Pasangan ' + pairKey + (noKamar ? ' · Kamar ' + noKamar : '');
         card.appendChild(rlbl);
-        pair.forEach((name, i) => {
+        pair.forEach((r, i) => {
           if (i > 0) { const d = document.createElement('div'); d.className = 'room-divider'; card.appendChild(d); }
-          const n = document.createElement('div');
-          n.className = 'room-name';
-          n.textContent = name;
-          card.appendChild(n);
+          const row = document.createElement('div');
+          row.className = 'room-name-row';
+          const nm = document.createElement('div');
+          nm.className = 'room-name';
+          nm.textContent = r.nama;
+          row.appendChild(nm);
+          list.appendChild(row);
+          card.appendChild(row);
         });
         list.appendChild(card);
       });
@@ -391,8 +377,7 @@ function buildGroupPanels() {
       cnt.textContent = groups[g].length + ' peserta';
       hdr.appendChild(cnt);
       panel.appendChild(hdr);
-
-      groups[g].forEach((name, idx) => {
+      groups[g].forEach((r, idx) => {
         const row = document.createElement('div');
         row.className = 'participant-row';
         const no = document.createElement('div');
@@ -400,9 +385,13 @@ function buildGroupPanels() {
         no.textContent = idx + 1;
         const nm = document.createElement('div');
         nm.className = 'participant-name';
-        nm.textContent = name;
+        nm.textContent = r.nama;
+        const kb = document.createElement('div');
+        kb.className = 'kamar-badge' + (r.no_kamar ? '' : ' empty');
+        kb.textContent = r.no_kamar ? '🏨 ' + r.no_kamar : 'Kamar —';
         row.appendChild(no);
         row.appendChild(nm);
+        row.appendChild(kb);
         list.appendChild(row);
       });
     }
@@ -412,7 +401,7 @@ function buildGroupPanels() {
     note.className = 'bottom-note';
     note.textContent = 'HOTEL ROOM — MALANG';
     panel.appendChild(note);
-    groupPanels.appendChild(panel);
+    el.appendChild(panel);
   }
 }
 
@@ -424,6 +413,15 @@ function highlight(text, query) {
   return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
 }
 
+function getAllParticipants() {
+  const all = [];
+  for (let g = 1; g <= 9; g++) {
+    groups[g].forEach((r, idx) => all.push({...r, groupNum: g, listIdx: idx}));
+  }
+  groups[10].forEach(r => all.push({...r, groupNum: 10}));
+  return all;
+}
+
 function buildGroupMembers(groupNum, activeName, query) {
   const wrap = document.createElement('div');
   wrap.className = 'group-members';
@@ -433,18 +431,27 @@ function buildGroupMembers(groupNum, activeName, query) {
   if (groupNum === 10) {
     title.textContent = 'Semua anggota Group 10';
     wrap.appendChild(title);
-    groups[10].forEach((pair, idx) => {
+    const pairs = {};
+    groups[10].forEach(r => {
+      if (!pairs[r.room_pair]) pairs[r.room_pair] = [];
+      pairs[r.room_pair].push(r);
+    });
+    Object.keys(pairs).sort((a,b)=>a-b).forEach(pairKey => {
+      const pair = pairs[pairKey];
       const gap = document.createElement('div'); gap.className = 'room-gap';
       const card = document.createElement('div'); card.className = 'room-sub-card';
-      if (pair.includes(activeName)) card.style.borderColor = '#ffe600';
+      if (pair.some(r => r.nama === activeName)) card.style.borderColor = '#5BC2E7';
       const rlbl = document.createElement('div'); rlbl.className = 'room-sub-label';
-      rlbl.textContent = 'Kamar ' + (idx + 1);
+      const noKamar = pair[0].no_kamar;
+      rlbl.textContent = 'Pasangan ' + pairKey + (noKamar ? ' · Kamar ' + noKamar : '');
       card.appendChild(rlbl);
-      pair.forEach((name, i) => {
+      pair.forEach((r, i) => {
         if (i > 0) { const d = document.createElement('div'); d.className = 'room-sub-divider'; card.appendChild(d); }
         const nm = document.createElement('div');
-        nm.className = 'room-sub-name' + (name === activeName ? ' highlighted' : '');
-        nm.innerHTML = highlight(name, query);
+        nm.className = 'room-sub-name' + (r.nama === activeName ? ' highlighted' : '');
+        const nameSpan = document.createElement('span');
+        nameSpan.innerHTML = highlight(r.nama, query);
+        nm.appendChild(nameSpan);
         card.appendChild(nm);
       });
       wrap.appendChild(gap); wrap.appendChild(card);
@@ -453,13 +460,17 @@ function buildGroupMembers(groupNum, activeName, query) {
   } else {
     title.textContent = 'Semua anggota Group ' + groupNum;
     wrap.appendChild(title);
-    groups[groupNum].forEach((name, idx) => {
+    groups[groupNum].forEach((r, idx) => {
       const row = document.createElement('div');
-      row.className = 'member-row' + (name === activeName ? ' active-member' : '');
+      row.className = 'member-row' + (r.nama === activeName ? ' active-member' : '');
       const no = document.createElement('div'); no.className = 'member-no'; no.textContent = idx + 1;
-      const nm = document.createElement('div'); nm.className = 'member-name'; nm.innerHTML = highlight(name, query);
+      const nm = document.createElement('div'); nm.className = 'member-name'; nm.innerHTML = highlight(r.nama, query);
+      const kb = document.createElement('div');
+      kb.className = 'member-kamar' + (r.no_kamar ? '' : ' empty');
+      kb.textContent = r.no_kamar ? '🏨 ' + r.no_kamar : '—';
       row.appendChild(no); row.appendChild(nm);
-      if (name === activeName) { const tag = document.createElement('span'); tag.className = 'you-tag'; tag.textContent = 'Ini kamu'; row.appendChild(tag); }
+      if (r.nama === activeName) { const tag = document.createElement('span'); tag.className = 'you-tag'; tag.textContent = 'Ini kamu'; row.appendChild(tag); }
+      row.appendChild(kb);
       wrap.appendChild(row);
     });
   }
@@ -470,13 +481,13 @@ function buildResultCard(p, query) {
   const card = document.createElement('div');
   card.className = 'result-card';
   const main = document.createElement('div'); main.className = 'result-main';
-  const nm = document.createElement('div'); nm.className = 'result-name'; nm.innerHTML = highlight(p.name, query);
+  const nm = document.createElement('div'); nm.className = 'result-name'; nm.innerHTML = highlight(p.nama, query);
   const badge = document.createElement('div'); badge.className = 'group-badge';
-  badge.textContent = p.type === 'room' ? 'GRP 10 · KMR ' + p.room : 'GRP ' + p.group;
+  badge.textContent = p.groupNum === 10 ? 'GRP 10 · PSG ' + p.room_pair : 'GRP ' + p.groupNum;
   const arrow = document.createElement('span'); arrow.className = 'expand-arrow'; arrow.textContent = '▾';
   main.appendChild(nm); main.appendChild(badge); main.appendChild(arrow);
   card.appendChild(main);
-  const members = buildGroupMembers(p.group, p.name, query);
+  const members = buildGroupMembers(p.groupNum, p.nama, query);
   card.appendChild(members);
   main.addEventListener('click', () => {
     const isOpen = card.classList.contains('open');
@@ -496,7 +507,6 @@ function doSearch(query) {
   const searchEmpty = document.getElementById('searchEmpty');
 
   clearBtn.classList.toggle('visible', q.length > 0);
-
   if (q.length === 0) {
     searchResults.classList.remove('active');
     navWrap.classList.remove('hidden');
@@ -504,21 +514,14 @@ function doSearch(query) {
     switchGroup(1);
     return;
   }
-
   document.querySelectorAll('.group-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
   navWrap.classList.add('hidden');
   searchResults.classList.add('active');
   searchList.innerHTML = '';
   searchEmpty.style.display = 'none';
 
-  const found = getAllParticipants().filter(p => p.name.toUpperCase().includes(q.toUpperCase()));
-
-  if (found.length === 0) {
-    searchEmpty.style.display = 'block';
-    searchLabel.textContent = 'Tidak ada hasil';
-    return;
-  }
-
+  const found = getAllParticipants().filter(p => p.nama.toUpperCase().includes(q.toUpperCase()));
+  if (found.length === 0) { searchEmpty.style.display = 'block'; searchLabel.textContent = 'Tidak ada hasil'; return; }
   searchLabel.textContent = found.length + ' peserta ditemukan — ketuk untuk lihat anggota grup';
   found.forEach(p => searchList.appendChild(buildResultCard(p, q)));
   if (found.length === 1) searchList.querySelector('.result-card').classList.add('open');
@@ -529,7 +532,6 @@ function clearSearch() {
   doSearch('');
   document.getElementById('searchInput').focus();
 }
-
 document.getElementById('searchInput').addEventListener('input', e => doSearch(e.target.value));
 
 function switchGroup(g) {
@@ -539,9 +541,7 @@ function switchGroup(g) {
   if (ab) ab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 }
 
-// ── ADMIN PANEL ──
-let adminUnlocked = false;
-
+// ── ADMIN ──
 function openAdmin() {
   document.getElementById('adminOverlay').classList.add('open');
   document.getElementById('pinInput').value = '';
@@ -560,35 +560,25 @@ function openAdmin() {
   }
 }
 
-function closeAdmin() {
-  document.getElementById('adminOverlay').classList.remove('open');
-}
-
-document.getElementById('adminOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeAdmin();
-});
-
-document.getElementById('pinInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') checkPin();
-});
+function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
+document.getElementById('adminOverlay').addEventListener('click', function(e) { if (e.target === this) closeAdmin(); });
+document.getElementById('pinInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkPin(); });
 
 function checkPin() {
   const val = document.getElementById('pinInput').value;
-  const errEl = document.getElementById('pinError');
-  const inputEl = document.getElementById('pinInput');
   if (val === ADMIN_PIN) {
     adminUnlocked = true;
     document.getElementById('adminLock').style.display = 'none';
     document.getElementById('adminBody').classList.add('unlocked');
     document.getElementById('adminActions').style.display = 'flex';
-    errEl.classList.remove('show');
-    inputEl.classList.remove('error');
+    document.getElementById('pinError').classList.remove('show');
+    document.getElementById('pinInput').classList.remove('error');
     loadAdminGroup();
   } else {
-    errEl.classList.add('show');
-    inputEl.classList.add('error');
-    inputEl.value = '';
-    inputEl.focus();
+    document.getElementById('pinError').classList.add('show');
+    document.getElementById('pinInput').classList.add('error');
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
   }
 }
 
@@ -598,87 +588,96 @@ function loadAdminGroup() {
   container.innerHTML = '';
 
   if (g === 10) {
+    const pairs = {};
+    groups[10].forEach(r => {
+      if (!pairs[r.room_pair]) pairs[r.room_pair] = [];
+      pairs[r.room_pair].push(r);
+    });
     const section = document.createElement('div');
     section.className = 'admin-room-section';
-    groups[10].forEach((pair, idx) => {
-      const card = document.createElement('div');
-      card.className = 'admin-room-card';
-      const rlbl = document.createElement('div');
-      rlbl.className = 'admin-room-lbl';
-      rlbl.textContent = 'Kamar ' + (idx + 1);
+    Object.keys(pairs).sort((a,b)=>a-b).forEach(pairKey => {
+      const pair = pairs[pairKey];
+      const card = document.createElement('div'); card.className = 'admin-room-card';
+      const rlbl = document.createElement('div'); rlbl.className = 'admin-room-lbl';
+      rlbl.textContent = 'Pasangan ' + pairKey;
       card.appendChild(rlbl);
-      pair.forEach((name, i) => {
-        const row = document.createElement('div');
-        row.className = 'admin-room-row';
+      pair.forEach(r => {
+        const row = document.createElement('div'); row.className = 'admin-room-row';
         const inp = document.createElement('input');
-        inp.className = 'admin-name-input';
-        inp.type = 'text';
-        inp.value = name;
-        inp.setAttribute('data-room', idx);
-        inp.setAttribute('data-slot', i);
-        row.appendChild(inp);
+        inp.className = 'admin-name-input'; inp.type = 'text'; inp.value = r.nama;
+        inp.setAttribute('data-id', r.id); inp.setAttribute('data-field', 'nama');
+        const klbl = document.createElement('span'); klbl.className = 'admin-kamar-label'; klbl.textContent = 'Kamar:';
+        const kinp = document.createElement('input');
+        kinp.className = 'admin-kamar-input'; kinp.type = 'text';
+        kinp.value = r.no_kamar || ''; kinp.placeholder = '—';
+        kinp.setAttribute('data-id', r.id); kinp.setAttribute('data-field', 'no_kamar');
+        row.appendChild(inp); row.appendChild(klbl); row.appendChild(kinp);
         card.appendChild(row);
       });
       section.appendChild(card);
     });
     container.appendChild(section);
   } else {
-    const list = document.createElement('div');
-    list.className = 'admin-members';
-    groups[g].forEach((name, idx) => {
-      const row = document.createElement('div');
-      row.className = 'admin-member-row';
-      const no = document.createElement('div');
-      no.className = 'admin-no';
-      no.textContent = idx + 1;
+    const list = document.createElement('div'); list.className = 'admin-members';
+    groups[g].forEach((r, idx) => {
+      const row = document.createElement('div'); row.className = 'admin-member-row';
+      const no = document.createElement('div'); no.className = 'admin-no'; no.textContent = idx + 1;
       const inp = document.createElement('input');
-      inp.className = 'admin-name-input';
-      inp.type = 'text';
-      inp.value = name;
-      inp.setAttribute('data-idx', idx);
-      row.appendChild(no);
-      row.appendChild(inp);
+      inp.className = 'admin-name-input'; inp.type = 'text'; inp.value = r.nama;
+      inp.setAttribute('data-id', r.id); inp.setAttribute('data-field', 'nama');
+      const klbl = document.createElement('span'); klbl.className = 'admin-kamar-label'; klbl.textContent = 'Kamar:';
+      const kinp = document.createElement('input');
+      kinp.className = 'admin-kamar-input'; kinp.type = 'text';
+      kinp.value = r.no_kamar || ''; kinp.placeholder = '—';
+      kinp.setAttribute('data-id', r.id); kinp.setAttribute('data-field', 'no_kamar');
+      row.appendChild(no); row.appendChild(inp); row.appendChild(klbl); row.appendChild(kinp);
       list.appendChild(row);
     });
     container.appendChild(list);
   }
 }
 
-function saveChanges() {
-  const g = parseInt(document.getElementById('adminGroupSelect').value);
+async function saveChanges() {
+  const inputs = document.querySelectorAll('#adminMemberList [data-id]');
+  const updates = {};
+  inputs.forEach(inp => {
+    const id = inp.getAttribute('data-id');
+    const field = inp.getAttribute('data-field');
+    if (!updates[id]) updates[id] = {};
+    updates[id][field] = inp.value.trim().toUpperCase() || null;
+    if (field === 'no_kamar') updates[id][field] = inp.value.trim() || null;
+  });
 
-  if (g === 10) {
-    const inputs = document.querySelectorAll('#adminMemberList .admin-name-input');
-    inputs.forEach(inp => {
-      const room = parseInt(inp.getAttribute('data-room'));
-      const slot = parseInt(inp.getAttribute('data-slot'));
-      groups[10][room][slot] = inp.value.trim().toUpperCase();
-    });
-  } else {
-    const inputs = document.querySelectorAll('#adminMemberList .admin-name-input');
-    inputs.forEach(inp => {
-      const idx = parseInt(inp.getAttribute('data-idx'));
-      groups[g][idx] = inp.value.trim().toUpperCase();
-    });
+  document.getElementById('savingIndicator').classList.add('show');
+  document.getElementById('adminActions').style.display = 'none';
+
+  try {
+    await Promise.all(Object.entries(updates).map(([id, data]) => updateRow(id, data)));
+
+    // Refresh data from DB
+    allRows = await getAllData();
+    structureData(allRows);
+    buildUI();
+
+    showToast('✅ Perubahan tersimpan & langsung update!');
+    closeAdmin();
+  } catch(e) {
+    showToast('❌ Gagal menyimpan: ' + e.message);
+  } finally {
+    document.getElementById('savingIndicator').classList.remove('show');
+    document.getElementById('adminActions').style.display = 'flex';
   }
-
-  // Save to localStorage
-  localStorage.setItem('pesertaData', JSON.stringify(groups));
-
-  // Rebuild UI
-  buildUI();
-
-  // Show toast
-  const toast = document.getElementById('saveToast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-
-  closeAdmin();
 }
 
-// ── INIT ──
-buildUI();
-</script>
+function showToast(msg) {
+  const toast = document.getElementById('saveToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
 
+// ── START ──
+init();
+</script>
 </body>
 </html>
