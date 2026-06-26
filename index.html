@@ -365,8 +365,11 @@ function buildGroupPanels() {
           const nm = document.createElement('div');
           nm.className = 'room-name';
           nm.textContent = r.nama;
+          const kb = document.createElement('div');
+          kb.className = 'kamar-badge' + (r.no_kamar ? '' : ' empty');
+          kb.textContent = r.no_kamar ? '🏨 ' + r.no_kamar : 'Kamar —';
           row.appendChild(nm);
-          list.appendChild(row);
+          row.appendChild(kb);
           card.appendChild(row);
         });
         list.appendChild(card);
